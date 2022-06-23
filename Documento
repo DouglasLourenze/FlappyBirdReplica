@@ -1,0 +1,5 @@
+# Instalar a biblioteca pygame
+pip install pygame
+
+# Conseguir as imagens
+colocar na pasta img as imagens de fundo, cano, passaro em suas poossições
