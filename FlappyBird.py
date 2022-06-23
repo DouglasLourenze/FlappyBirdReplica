@@ -197,6 +197,9 @@ def main():
                 if evento.key == pygame.K_SPACE:
                     for passaro in passaros:
                         passaro.pular()
+            if evento.type == pygame.KEYDOWN:
+                if evento.key == pygame.K_r:
+                    main()
 
         # mover as coisas
         for passaro in passaros:
@@ -225,6 +228,8 @@ def main():
         for i, passaro in enumerate(passaros):
             if (passaro.y + passaro.imagem.get_height()) > chao.y or passaro.y < 0:
                 passaros.pop(i)
+
+
 
         desenhar_tela(tela, passaros, canos, chao, pontos)
 
