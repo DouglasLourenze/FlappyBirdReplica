@@ -195,10 +195,11 @@ def fimdojogo (tela, pontos, chao):
     for evento in pygame.event.get():
         if evento.type == pygame.KEYDOWN:
             if evento.key == pygame.K_r:
-                main()
-        if evento.type == pygame.QUIT:
-            pygame.quit()
-            quit()
+               main()
+        if evento.type == pygame.KEYDOWN:
+            if evento.key == pygame.K_x:
+               pygame.quit()
+               quit()
 
 
 def main():
