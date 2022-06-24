@@ -16,10 +16,11 @@ Imagens_passaro = [
     pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'bird2.png'))),
     pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'bird3.png'))),
 ]
+Imagem_fimjogo = pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'bgfim.png')))
 
 pygame.font.init() #inicializar a fonte
 Fonte_pontos = pygame.font.SysFont('arial', 50) #define a fonte e tamanho para o texto de pontos
-
+Fonte_Msgfinal = pygame.font.SysFont('arial', 35)
 #Criação das classes, atributos e métodos.
 class Passaro:
     IMGS = Imagens_passaro
@@ -175,6 +176,31 @@ def desenhar_tela(tela, passaros, canos, chao, pontos):
     chao.desenhar(tela)
     pygame.display.update()
 
+def fimdojogo (tela, pontos, chao):
+    tela.blit(Imagem_fimjogo, (0,0))
+
+    texto = Fonte_pontos.render(f"Sua Pontuação Foi: {pontos}", 1, (255,255,255))
+    tela.blit(texto, (Tela_largura - 50 - texto.get_width(), 10))
+    texto1 = Fonte_Msgfinal.render("DIGITE 'R' PARA REINICIAR", 1, (255,255,255))
+    texto1rect = texto1.get_rect()
+    texto1rect.center = (Tela_largura // 2, Tela_altura // 3)
+    tela.blit(texto1, texto1rect)
+    texto2 = Fonte_Msgfinal.render("OU CLIQUE NO 'X' PARA SAIR", 1, (255, 255, 255))
+    texto2rect = texto2.get_rect()
+    texto2rect.center = (Tela_largura //2, Tela_altura //2)
+    tela.blit(texto2, texto2rect)
+    chao.desenhar(tela)
+    pygame.display.update()
+
+    for evento in pygame.event.get():
+        if evento.type == pygame.KEYDOWN:
+            if evento.key == pygame.K_r:
+                main()
+        if evento.type == pygame.QUIT:
+            pygame.quit()
+            quit()
+
+
 def main():
     passaros = [Passaro(230, 350)]
     chao = Chao(730)
@@ -182,6 +208,7 @@ def main():
     tela = pygame.display.set_mode((Tela_largura, Tela_altura))
     pontos = 0
     relogio = pygame.time.Clock()
+
 
     rodando = True
     while rodando:
@@ -225,13 +252,20 @@ def main():
         for cano in remover_canos:
             canos.remove(cano)
 
-        for i, passaro in enumerate(passaros):
-            if (passaro.y + passaro.imagem.get_height()) > chao.y or passaro.y < 0:
-                passaros.pop(i)
-
+        #for i, passaro in enumerate(passaros):
+        if (passaro.y + passaro.imagem.get_height()) > chao.y or passaro.y < 0 or cano.colidir(passaro):
+            #passaros.pop(i)
+            #return main()
+            acabou = True
+            break
+            #main()
 
 
         desenhar_tela(tela, passaros, canos, chao, pontos)
+
+    while acabou:
+        fimdojogo(tela, pontos, chao)
+       # input("Escreva seu nome: ")
 
 
 if __name__ == '__main__':
