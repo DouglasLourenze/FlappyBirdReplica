@@ -19,8 +19,8 @@ Imagens_passaro = [
 Imagem_fimjogo = pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'bgfim.png')))
 
 pygame.font.init() #inicializar a fonte
-Fonte_pontos = pygame.font.SysFont('arial', 50) #define a fonte e tamanho para o texto de pontos
-Fonte_Msgfinal = pygame.font.SysFont('arial', 35)
+Fonte_pontos = pygame.font.Font('fonts/Sunday Morning ttf.ttf', 35) #define a fonte e tamanho para o texto de pontos
+Fonte_Msgfinal = pygame.font.Font('fonts/Sunday Morning ttf.ttf', 25)
 #Criação das classes, atributos e métodos.
 class Passaro:
     IMGS = Imagens_passaro
@@ -171,7 +171,7 @@ def desenhar_tela(tela, passaros, canos, chao, pontos):
     for cano in canos:
         cano.desenhar(tela)
 
-    texto = Fonte_pontos.render(f"Pontuação: {pontos}", 1, (255,255,255))
+    texto = Fonte_pontos.render(f"Pontos: {pontos}", 1, (255,255,255))
     tela.blit(texto, (Tela_largura - 10 - texto.get_width(), 10))
     chao.desenhar(tela)
     pygame.display.update()
@@ -179,11 +179,15 @@ def desenhar_tela(tela, passaros, canos, chao, pontos):
 def fimdojogo (tela, pontos, chao):
     tela.blit(Imagem_fimjogo, (0,0))
 
-    texto = Fonte_pontos.render(f"Sua Pontuação Foi: {pontos}", 1, (255,255,255))
-    tela.blit(texto, (Tela_largura - 50 - texto.get_width(), 10))
+    texto0 = Fonte_Msgfinal.render("VOCÊ TA MORTO!!!!", 1, (255, 255, 255))
+    texto0rect = texto0.get_rect()
+    texto0rect.center = (Tela_largura // 2, Tela_altura // 10)
+    tela.blit(texto0, texto0rect)
+    texto = Fonte_Msgfinal.render(f"Pontos marcados: {pontos}", 1, (255,255,255))
+    tela.blit(texto, (Tela_largura // 5, 170))
     texto1 = Fonte_Msgfinal.render("DIGITE 'R' PARA REINICIAR", 1, (255,255,255))
     texto1rect = texto1.get_rect()
-    texto1rect.center = (Tela_largura // 2, Tela_altura // 3)
+    texto1rect.center = (Tela_largura // 2, Tela_altura // 2.5)
     tela.blit(texto1, texto1rect)
     texto2 = Fonte_Msgfinal.render("OU CLIQUE NO 'X' PARA SAIR", 1, (255, 255, 255))
     texto2rect = texto2.get_rect()
@@ -200,7 +204,9 @@ def fimdojogo (tela, pontos, chao):
             if evento.key == pygame.K_x:
                pygame.quit()
                quit()
-
+        if evento.type == pygame.QUIT:
+            pygame.quit()
+            quit()
 
 def main():
     passaros = [Passaro(230, 350)]
@@ -258,7 +264,9 @@ def main():
             #passaros.pop(i)
             #return main()
             acabou = True
+            pygame.time.wait(800)
             break
+
             #main()
 
 
