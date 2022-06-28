@@ -246,7 +246,7 @@ def main():
             for i, passaro in enumerate(passaros):
                 if cano.colidir(passaro):
                     passaros.pop(i)
-                if not cano.passou and passaro.x > cano.x:
+                if not cano.passou and passaro.x > (cano.x + cano.CANO_BASE.get_width()):
                     cano.passou = True
                     adicionar_cano = True
             cano.mover()
